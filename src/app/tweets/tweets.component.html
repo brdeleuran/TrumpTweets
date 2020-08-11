@@ -1,0 +1,82 @@
+<div>
+  <p>Search for a word</p>
+  <input (keyup)="onChange($event)">
+  <p>Search for more likes than specified</p>
+  <input (keyup)="checkLikes($event)">
+  <p>Search for tweet by month</p>
+  <select #monthValue (change)="checkMonth(monthValue.value)">
+    <option value="0">January</option>
+    <option value="1">February</option>
+    <option value="2">March</option>
+    <option value="3">April</option>
+    <option value="4">May</option>
+    <option value="5">June</option>
+    <option value="6">July</option>
+    <option value="7">August</option>
+    <option value="8">September</option>
+    <option value="9">October</option>
+    <option value="10">November</option>
+    <option value="11">December</option>
+  </select>
+</div>
+
+
+<div *ngIf="wordSearch === '' || wordSearch.length === 0; else showSearch">
+  <div *ngIf="likeSearch === 0; else showLikes">
+    <div *ngIf="monthSearch === 0; else showMonth">
+    <div *ngFor="let tweet of twat; let i = index" class="container center">
+      <div class="tweetBorder row">
+        <div class="col-sm-8">
+          {{ tweet.text }}
+        </div>
+        <div class="col-sm-8">
+          <p style="text-align: left;">{{ tweet.date }}</p> <p style="text-align: right;">{{ tweet.likes}} likes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+<ng-template #showSearch>
+  <div *ngFor="let tweet of twat; let i = index"  class="container center">
+    <div *ngIf="tweet.text.includes(wordSearch)" >
+      <div class="tweetBorder row">
+        <div class="col-sm-8">
+          {{ tweet.text }}
+        </div>
+        <div class="col-sm-8">
+          <p style="text-align: left;">{{ tweet.date }}</p> <p style="text-align: right;">{{ tweet.likes}} likes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #showLikes>
+  <div *ngFor="let tweet of twat; let i = index"  class="container center">
+    <div *ngIf="tweet.likes > likeSearch" >
+      <div class="tweetBorder row">
+        <div class="col-sm-8">
+          {{ tweet.text }}
+        </div>
+        <div class="col-sm-8">
+          <p style="text-align: left;">{{ tweet.date }}</p> <p style="text-align: right;">{{ tweet.likes}} likes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #showMonth>
+  <div *ngFor="let tweet of twat; let i = index"  class="container center">
+    <div *ngIf="tweet.date.getMonth() == monthSearch" >
+      <div class="tweetBorder row">
+        <div class="col-sm-8">
+          {{ tweet.text }}
+        </div>
+        <div class="col-sm-8">
+          <p style="text-align: left;">{{ tweet.date }}</p> <p style="text-align: right;">{{ tweet.likes}} likes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
